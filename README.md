@@ -1,1 +1,1 @@
-# CS50wPFP
+# Capstone Quiz Application
