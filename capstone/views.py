@@ -6,11 +6,33 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User
+from .models import Question
+
+from .forms import QuestionCreateForm
+
+
 # Create your views here.
 
 
 def index(request):
     return render(request, "capstone/index.html")
+
+
+def create_question(request):
+    if request.method == 'POST':
+        form = QuestionCreateForm(request.POST)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("create_question"))
+        else:
+            return render(request, "capstone/create_question.html", {
+                "form": form
+            })
+    else:
+        return render(request, "capstone/create_question.html", {
+            "form": QuestionCreateForm()
+        })
 
 
 def login_view(request):
