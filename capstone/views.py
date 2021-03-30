@@ -26,12 +26,16 @@ def create_question(request):
             form.save()
             return HttpResponseRedirect(reverse("create_question"))
         else:
+            question_last = Question.objects.all().last()
             return render(request, "capstone/create_question.html", {
-                "form": form
+                "form": form,
+                "question_last": question_last
             })
     else:
+        question_last = Question.objects.all().last()
         return render(request, "capstone/create_question.html", {
-            "form": QuestionCreateForm()
+            "form": QuestionCreateForm(),
+            "question_last": question_last
         })
 
 

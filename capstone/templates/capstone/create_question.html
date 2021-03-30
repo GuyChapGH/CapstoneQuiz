@@ -7,13 +7,23 @@
 
     <form action="{% url 'create_question' %}" method="post" novalidate>
         {% csrf_token %}
-    <table>
+    <table class="question_input">
         {{ form.as_table }}
         <tr>
             <td>&nbsp;</td>
             <td><input type="submit" value="Save"></td>
         </tr>
-    </table>    
+    </table>
     </form>
+    {% if question_last %}
+        <table class="question_last">
+            <tr>
+                <th>Last Question Saved</th>
+                <th>{{ question_last.content }}</th>
+            </tr>
+        </table>
+    {% else %}
+        <p> No Saved Questions. </p>
+    {% endif %}
 
 {% endblock %}
