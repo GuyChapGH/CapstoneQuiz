@@ -20,18 +20,24 @@ def index(request):
 
 def create_question(request):
     if request.method == 'POST':
+
+        # Get form input
         form = QuestionCreateForm(request.POST)
+
+        # Check all fields correct, complete user field with current user and save
         if form.is_valid():
             form.instance.user = request.user
             form.save()
             return HttpResponseRedirect(reverse("create_question"))
         else:
+            # Add last saved question to bottom of form and return part completed form
             question_last = Question.objects.all().last()
             return render(request, "capstone/create_question.html", {
                 "form": form,
                 "question_last": question_last
             })
     else:
+        # Add last saved question to bottom of form and return fresh form
         question_last = Question.objects.all().last()
         return render(request, "capstone/create_question.html", {
             "form": QuestionCreateForm(),
