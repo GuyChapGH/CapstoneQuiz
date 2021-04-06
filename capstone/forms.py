@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question
+from .models import Question, Quiz
 
 
 CHOICES = [('answer0', 'Answer A'), ('answer1', 'Answer B'),
@@ -19,3 +19,13 @@ class QuestionCreateForm(forms.ModelForm):
             "answer2": "Answer C",
             "answer3": "Answer D",
         }
+
+
+class QuizCreateForm(forms.ModelForm):
+    questions = forms.ModelMultipleChoiceField(
+        queryset=Question.objects.all().order_by('-timestamp'),
+        widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = Quiz
+        exclude = ['user', 'timestamp']

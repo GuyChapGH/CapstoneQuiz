@@ -1,0 +1,19 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+    <h1>Create Quiz</h1>
+
+    <form action="{% url 'create_quiz' %}" method="post" novalidate>
+        {% csrf_token %}
+    <table class="quiz_input">
+        {{ form.as_table }}
+        <tr>
+            <td>&nbsp;</td>
+            <td><input type="submit" value="Save"></td>
+        </tr>
+    </table>
+    </form>
+
+{% endblock %}

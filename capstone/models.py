@@ -18,8 +18,11 @@ class Question(models.Model):
     answer3 = models.CharField(max_length=30)
     correct_answer = models.CharField(max_length=30, default="unanswered")
 
+#    def __str__(self):
+#        return f"{self.user.username} at {self.timestamp}. Question: {self.content} with answers: {self.answer0}, {self.answer1}, {self.answer2}, {self.answer3}. Correct answer: {self.correct_answer}"
+
     def __str__(self):
-        return f"{self.user.username} at {self.timestamp}. Question: {self.content} with answers: {self.answer0}, {self.answer1}, {self.answer2}, {self.answer3}. Correct answer: {self.correct_answer}"
+        return f"Question: {self.content}"
 
 
 class Quiz(models.Model):

@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models import User
 from .models import Question
 
-from .forms import QuestionCreateForm
+from .forms import QuestionCreateForm, QuizCreateForm
 
 
 # Create your views here.
@@ -42,6 +42,29 @@ def create_question(request):
         return render(request, "capstone/create_question.html", {
             "form": QuestionCreateForm(),
             "question_last": question_last
+        })
+
+
+def create_quiz(request):
+    if request.method == 'POST':
+
+        # Get form input
+        form = QuizCreateForm(request.POST)
+
+        # Check all fields correct, complete user field with current user and save
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect(reverse("create_quiz"))
+        else:
+            # return part completed form
+            return render(request, "capstone/create_quiz.html", {
+                "form": form
+            })
+    else:
+        # return fresh form
+        return render(request, "capstone/create_quiz.html", {
+            "form": QuizCreateForm()
         })
 
 
