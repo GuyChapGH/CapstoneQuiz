@@ -32,8 +32,9 @@ class Quiz(models.Model):
     questions = models.ManyToManyField("Question")
 
     def __str__(self):
-        first_question = self.questions.all().first()
-        return f"{self.user.username} at {self.timestamp}. Quizname: {self.quiz_name}. First question: {first_question.content}"
+        # first_question = self.questions.all().first()
+        # return f"{self.user.username} at {self.timestamp}. Quizname: {self.quiz_name}. First question: {first_question.content}"
+        return f"{self.quiz_name}"
 
 
 class Contestant(models.Model):
@@ -44,7 +45,7 @@ class Contestant(models.Model):
 
     def __str__(self):
         first_quiz = self.quiz.all().first()
-        return f"{self.user.username} at {self.timestamp}. Quizname: {first_quiz.quiz_name}. Score: {self.quiz_score}"
+        return f"{self.user.username} at {self.timestamp}. First Quizname: {first_quiz.quiz_name}. Score: {self.quiz_score}"
         # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def correct_answer(self):

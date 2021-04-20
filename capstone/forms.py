@@ -1,5 +1,5 @@
 from django import forms
-from .models import Question, Quiz
+from .models import Question, Quiz, Contestant
 
 
 CHOICES = [('answer0', 'Answer A'), ('answer1', 'Answer B'),
@@ -29,3 +29,9 @@ class QuizCreateForm(forms.ModelForm):
     class Meta:
         model = Quiz
         exclude = ['user', 'timestamp']
+
+
+class ContestantSelectForm(forms.ModelForm):
+    class Meta:
+        model = Contestant
+        exclude = ['user', 'timestamp', 'quiz_score']

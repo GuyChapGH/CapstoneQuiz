@@ -8,7 +8,7 @@ from django.urls import reverse
 from .models import User
 from .models import Question
 
-from .forms import QuestionCreateForm, QuizCreateForm
+from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm
 
 
 # Create your views here.
@@ -65,6 +65,30 @@ def create_quiz(request):
         # return fresh form
         return render(request, "capstone/create_quiz.html", {
             "form": QuizCreateForm()
+        })
+
+
+def quiz_select(request):
+    if request.method == 'POST':
+
+        # Get form input
+        form = ContestantSelectForm(request.POST)
+
+        # Check all fields correct, complete user field with current user and save
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            # This is temporary redirect. Next steps go to play_quiz.
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            # return part completed form
+            return render(request, "capstone/quiz_select.html", {
+                "form": form
+            })
+    else:
+        # return fresh form
+        return render(request, "capstone/quiz_select.html", {
+            "form": ContestantSelectForm()
         })
 
 
