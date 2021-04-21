@@ -48,5 +48,14 @@ class Contestant(models.Model):
         return f"{self.user.username} at {self.timestamp}. First Quizname: {first_quiz.quiz_name}. Score: {self.quiz_score}"
         # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
+    def first_question(self):
+        first_quiz = self.quiz.all().first()
+        return f"{first_quiz.questions.first()}"
+
+    def first_correct_answer(self):
+        first_quiz = self.quiz.all().first()
+        first_question = first_quiz.questions.all()[0]
+        return f"{first_question.correct_answer}"
+
     def correct_answer(self):
         self.quiz_score += 1

@@ -7,6 +7,7 @@ from django.urls import reverse
 
 from .models import User
 from .models import Question
+from .models import Contestant
 
 from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm
 
@@ -78,8 +79,10 @@ def quiz_select(request):
         if form.is_valid():
             form.instance.user = request.user
             form.save()
-            # This is temporary redirect. Next steps go to play_quiz.
-            return HttpResponseRedirect(reverse("index"))
+
+            # Get id from last created Contestant object
+            contestant_id = Contestant.objects.all().last().id
+            return HttpResponseRedirect(reverse("play_quiz", args=(contestant_id,)))
         else:
             # return part completed form
             return render(request, "capstone/quiz_select.html", {
@@ -90,6 +93,26 @@ def quiz_select(request):
         return render(request, "capstone/quiz_select.html", {
             "form": ContestantSelectForm()
         })
+
+
+def play_quiz(request, contestant_id):
+
+    try:
+        contestant = Contestant.objects.get(pk=contestant_id)
+    except Contestant.DoesNotExist:
+        raise Http404("Contestant not found.")
+
+    # first_question uses method defined in Contestant model
+    first_question = contestant.first_question()
+
+    # first_correct_answer uses method defined in Contestant model
+    first_correct_answer = contestant.first_correct_answer()
+
+    return render(request, "capstone/play_quiz.html",   {
+        "contestant": contestant,
+        "first_question": first_question,
+        "first_correct_answer": first_correct_answer
+    })
 
 
 def login_view(request):
