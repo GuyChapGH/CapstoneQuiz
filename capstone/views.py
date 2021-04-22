@@ -103,10 +103,10 @@ def play_quiz(request, contestant_id):
         raise Http404("Contestant not found.")
 
     # first_question uses method defined in Contestant model
-    first_question = contestant.first_question()
+    first_question = contestant.first_question(0)
 
     # first_correct_answer uses method defined in Contestant model
-    first_correct_answer = contestant.first_correct_answer()
+    first_correct_answer = contestant.first_correct_answer(0)
 
     return render(request, "capstone/play_quiz.html",   {
         "contestant": contestant,
