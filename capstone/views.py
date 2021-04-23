@@ -102,16 +102,35 @@ def play_quiz(request, contestant_id):
     except Contestant.DoesNotExist:
         raise Http404("Contestant not found.")
 
+    # index, n, controls question in quiz. n=0 is first question and n=N is last question
+    n = 0
+
     # first_question uses method defined in Contestant model
-    first_question = contestant.first_question(0)
+    question = contestant.question(n)
+
+    # multiple_choice uses method defined  in Contestant model
+    multiple_choice0 = contestant.multiple_choice0(n)
+
+    # multiple_choice uses method defined  in Contestant model
+    multiple_choice1 = contestant.multiple_choice1(n)
+
+    # multiple_choice uses method defined  in Contestant model
+    multiple_choice2 = contestant.multiple_choice2(n)
+
+    # multiple_choice uses method defined  in Contestant model
+    multiple_choice3 = contestant.multiple_choice3(n)
 
     # first_correct_answer uses method defined in Contestant model
-    first_correct_answer = contestant.first_correct_answer(0)
+    correct_answer = contestant.correct_answer(n)
 
     return render(request, "capstone/play_quiz.html",   {
         "contestant": contestant,
-        "first_question": first_question,
-        "first_correct_answer": first_correct_answer
+        "question": question,
+        "multiple_choice0": multiple_choice0,
+        "multiple_choice1": multiple_choice1,
+        "multiple_choice2": multiple_choice2,
+        "multiple_choice3": multiple_choice3,
+        "correct_answer": correct_answer
     })
 
 
