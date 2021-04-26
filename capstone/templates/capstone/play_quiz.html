@@ -6,10 +6,19 @@
     <h1>Play Quiz</h1>
 
     <p>{{ contestant }}</p>
-    <p>{{ question }}</p>
-    <p>{{ multiple_choice0 }}</p>
-    <p>{{ multiple_choice1 }}</p>
-    <p>{{ multiple_choice2 }}</p>
-    <p>{{ multiple_choice3 }}</p>
+    <div class="container">
+        <div class="row">
+            <div class="col">{{ question }}</div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-cols-2">
+            <button><div class="col">{{ multiple_choice0 }}</div></button>
+            <button><div class="col">{{ multiple_choice1 }}</div></button>
+            <button><div class="col">{{ multiple_choice2 }}</div></button>
+            <button><div class="col">{{ multiple_choice3 }}</div></button>
+        </div>
+    </div>
+
     <p>{{ correct_answer }}</p>
 {% endblock %}
