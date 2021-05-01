@@ -13,11 +13,12 @@
     </div>
     <div class="container">
         <div class="row row-cols-2">
-            <button data-answer="answer0"><div class="col">{{ multiple_choice0 }}</div></button>
-            <button data-answer="answer1"><div class="col">{{ multiple_choice1 }}</div></button>
-            <button data-answer="answer2"><div class="col">{{ multiple_choice2 }}</div></button>
-            <button data-answer="answer3"><div class="col">{{ multiple_choice3 }}</div></button>
+            <button data-answer="answer0"><div class="col"><span id="answer0">{{ multiple_choice0 }}</span></div></button>
+            <button data-answer="answer1"><div class="col"><span id="answer1">{{ multiple_choice1 }}</span></div></button>
+            <button data-answer="answer2"><div class="col"><span id="answer2">{{ multiple_choice2 }}</span></div></button>
+            <button data-answer="answer3"><div class="col"><span id="answer3">{{ multiple_choice3 }}</span></div></button>
         </div>
+        <div id="correct_answer" data-answer="{{ correct_answer }}"></div>
     </div>
 
     <p>{{ correct_answer }}</p>

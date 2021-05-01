@@ -53,8 +53,12 @@
 }
 
 button   {
-    background-color: #4CAF50; /* green */
+    background-color: #D73338; /* red */
 }
 button:hover    {
-    background-color: red;
+    background-color: #4C8100; /* green.  #BFA6A2; taupe */
+}
+button:disabled {
+    /* font-weight: bold; */
+    color: black;
 }
