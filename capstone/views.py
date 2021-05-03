@@ -1,7 +1,10 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
+
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -105,7 +108,7 @@ def play_quiz(request, contestant_id):
     # index, n, controls question in quiz. n=0 is first question and n=N is last question
     n = 0
 
-    # first_question uses method defined in Contestant model
+    # question uses method defined in Contestant model
     question = contestant.question(n)
 
     # multiple_choice uses method defined  in Contestant model
@@ -124,6 +127,7 @@ def play_quiz(request, contestant_id):
     correct_answer = contestant.correct_answer(n)
 
     return render(request, "capstone/play_quiz.html",   {
+        "contestant_id": contestant_id,
         "contestant": contestant,
         "question": question,
         "multiple_choice0": multiple_choice0,
@@ -132,6 +136,22 @@ def play_quiz(request, contestant_id):
         "multiple_choice3": multiple_choice3,
         "correct_answer": correct_answer
     })
+
+
+@csrf_exempt
+def play_quizAPI(request, contestant_id):
+    try:
+        contestant = Contestant.objects.get(pk=contestant_id)
+    except Contestant.DoesNotExist:
+        raise Http404("Contestant not found.")
+
+# Return question and answers with index n
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("question_index") is not None:
+            n = data["question_index"]
+        return JsonResponse({"question": contestant.question(n)})
+        # return JsonResponse({"question": "Got this far"})
 
 
 def login_view(request):
