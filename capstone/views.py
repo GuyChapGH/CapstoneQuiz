@@ -145,13 +145,20 @@ def play_quizAPI(request, contestant_id):
     except Contestant.DoesNotExist:
         raise Http404("Contestant not found.")
 
-# Return question and answers with index n
+# Supply index n
     if request.method == "PUT":
         data = json.loads(request.body)
         if data.get("question_index") is not None:
+            # this makes the variable, n, accessible
+            global n
             n = data["question_index"]
-        return JsonResponse({"question": contestant.question(n)})
+        return JsonResponse({"message": "index successfully updated"})
         # return JsonResponse({"question": "Got this far"})
+
+# Return question and answers with index n
+    if request.method == "GET":
+        return JsonResponse({"question": contestant.question(n)})
+        # return JsonResponse({"question_index": n})
 
 
 def login_view(request):

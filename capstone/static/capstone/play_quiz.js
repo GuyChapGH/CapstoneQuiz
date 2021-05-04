@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     /* Define question index. From 0 to N-1. Where N is the number of questions in the quiz.*/
-    var n=0;
+    var n = 0;
     document.querySelectorAll('.multi_choice').forEach(button => {
         button.onclick = () => {
             /* Button clicked stays hover colour */
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 console.log(id);
 
-                /* PUT request to get next question and answers for index n */
+                /* PUT request to supply question index n */
                 /* Note: the marks around the path are backticks not single quotation marks */
                 fetch(`/play_quizAPI/${id}`, {
                     method:'PUT',
@@ -58,8 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 })
                 .then(response => response.json())
-                .then(question => {
-                    console.log(question);
+                .then(result => {
+                    console.log(result);
+
+                    /* GET request to retrieve question and answers with index n */
+                    fetch(`/play_quizAPI/${id}`,    {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(question => {
+                        console.log(question);
+                    });
+
                 });
             })
 
