@@ -66,8 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         method: 'GET'
                     })
                     .then(response => response.json())
-                    .then(question => {
-                        console.log(question);
+                    .then(contestant => {
+                        console.log(contestant.question);
+                        console.log(contestant.multiple_choice0);
+
+                    /* TODO pick up id for question and replace innerHTML */
+
+                    /* pick up span id for multiple choice answer and replace innerHTML */
+                        document.querySelector('#answer0').innerHTML = contestant.multiple_choice0;
+                    /* TODO: Add data for remaining answers and correct answer */    
                     });
 
                 });
