@@ -7,12 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
             button.style.backgroundColor="#4C8100";
 
             /* All multi_choice buttons are disabled after button click */
-            document.querySelectorAll('button').forEach(button => {
+            document.querySelectorAll('.multi_choice').forEach(button => {
                 button.disabled = true;
             });
 
             /* Get correct answer from document*/
             const corr_answer = document.querySelector('#correct_answer').dataset.answer;
+
+            /* Test to see if correct_answer has been updated from fetch */
+            console.log(corr_answer);
 
             /* Use this next line to increase score using PUT request */
             /* if (button.dataset.answer == corr_answer)  {
@@ -70,12 +73,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.log(contestant.question);
                         console.log(contestant.multiple_choice0);
 
-                    /* TODO pick up id for question and replace innerHTML */
-
-                    /* pick up span id for multiple choice answer and replace innerHTML */
+                    /* Pick up id for question and replace innerHTML */
+                        document.querySelector('#question').innerHTML = contestant.question;
+                    /* Pick up span id for multiple choice answer and replace innerHTML */
                         document.querySelector('#answer0').innerHTML = contestant.multiple_choice0;
-                    /* TODO: Add data for remaining answers and correct answer */    
+                        document.querySelector('#answer1').innerHTML = contestant.multiple_choice1;
+                        document.querySelector('#answer2').innerHTML = contestant.multiple_choice2;
+                        document.querySelector('#answer3').innerHTML = contestant.multiple_choice3;
+                    /* Add data for correct answer */
+                        document.querySelector('#correct_answer').dataset.answer = contestant.correct_answer;
                     });
+                /* All multi_choice buttons are reenabled after new question setup.*/
+                /* All multi_choice buttons background colour set to red */
+                document.querySelectorAll('.multi_choice').forEach(button => {
+                    button.disabled = false;
+                    button.style.backgroundColor="#D73338";
+                    /* button.style:hover.backgroundColor="#4C8100"; */
+                    })
 
                 });
             })

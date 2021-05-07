@@ -158,7 +158,11 @@ def play_quizAPI(request, contestant_id):
 # Return question and answers with index n
     if request.method == "GET":
         return JsonResponse({"question": contestant.question(n),
-                             "multiple_choice0": contestant.multiple_choice0(n)
+                             "multiple_choice0": contestant.multiple_choice0(n),
+                             "multiple_choice1": contestant.multiple_choice1(n),
+                             "multiple_choice2": contestant.multiple_choice2(n),
+                             "multiple_choice3": contestant.multiple_choice3(n),
+                             "correct_answer": contestant.correct_answer(n)
                              })
         # return JsonResponse({"question_index": n})
 

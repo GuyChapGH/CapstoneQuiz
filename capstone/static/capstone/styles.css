@@ -55,9 +55,11 @@
 button.multi_choice    {
     background-color: #D73338; /* red */
 }
+/*
 button:hover.multi_choice  {
-    background-color: #4C8100; /* green.  #BFA6A2; taupe */
+    background-color: #4C8100; green.  #BFA6A2; taupe
 }
+*/
 button:disabled.multi_choice   {
     /* font-weight: bold; */
     color: black;
