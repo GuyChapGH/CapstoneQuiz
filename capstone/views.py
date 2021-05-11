@@ -22,6 +22,7 @@ def index(request):
     return render(request, "capstone/index.html")
 
 
+@login_required
 def create_question(request):
     if request.method == 'POST':
 
@@ -49,6 +50,7 @@ def create_question(request):
         })
 
 
+@login_required
 def create_quiz(request):
     if request.method == 'POST':
 
@@ -72,6 +74,7 @@ def create_quiz(request):
         })
 
 
+@login_required
 def quiz_select(request):
     if request.method == 'POST':
 
@@ -98,14 +101,14 @@ def quiz_select(request):
         })
 
 
+@login_required
 def play_quiz(request, contestant_id):
-
     try:
         contestant = Contestant.objects.get(pk=contestant_id)
     except Contestant.DoesNotExist:
         raise Http404("Contestant not found.")
 
-    # index, n, controls question in quiz. n=0 is first question and n=N is last question
+    # index, n, controls question in quiz. n=0 is first question and n=N-1 is last question
     n = 0
 
     # question uses method defined in Contestant model
@@ -126,6 +129,9 @@ def play_quiz(request, contestant_id):
     # first_correct_answer uses method defined in Contestant model
     correct_answer = contestant.correct_answer(n)
 
+    # number of questions in quiz uses method defined in Contestant model
+    number_questions = contestant.questions_in_quiz()
+
     return render(request, "capstone/play_quiz.html",   {
         "contestant_id": contestant_id,
         "contestant": contestant,
@@ -134,10 +140,12 @@ def play_quiz(request, contestant_id):
         "multiple_choice1": multiple_choice1,
         "multiple_choice2": multiple_choice2,
         "multiple_choice3": multiple_choice3,
-        "correct_answer": correct_answer
+        "correct_answer": correct_answer,
+        "number_questions": number_questions
     })
 
 
+@login_required
 @csrf_exempt
 def play_quizAPI(request, contestant_id):
     try:

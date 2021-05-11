@@ -79,5 +79,10 @@ class Contestant(models.Model):
         question = first_quiz.questions.all()[n]
         return f"{question.correct_answer}"
 
+    def questions_in_quiz(self):
+        first_quiz = self.quiz.all().first()
+        number_questions = first_quiz.questions.count()
+        return f"{number_questions}"
+
     def score_point(self):
         self.quiz_score += 1

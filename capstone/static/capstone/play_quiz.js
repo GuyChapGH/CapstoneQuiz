@@ -3,7 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     var n = 0;
     /* Define N, the number of questions in the quiz */
     /* TODO. Get value of N from html page. TODO. First get value of N from count() in play_quiz route */
-    var N = 10;
+    /* var N = 10; */
+    var N = document.querySelector('#number_questions').dataset.number_questions;
+
     document.querySelectorAll('.multi_choice').forEach(button => {
         button.onclick = () => {
             /* Button clicked stays hover colour */
@@ -105,9 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 /* If beyond last question open quiz_end page */
                 else {
                     /* This call to open new page is not working. URL helper doesn't work in JavaScript??*/
-                    document.location.href = "{% url 'index' %}";
+                    /* document.location.href = "{% url 'index' %}"; */
                     /* This alternative works...*/
                     /* document.location.href = "http://localhost:8000/"; */
+
+                    /* Remove buttons at quiz_end */
+                    document.querySelectorAll('.multi_choice').forEach(button =>    {
+                        button.remove();
+                    })
+                    next_btn.remove();
+                    /* Replace Question with quiz_end text. TODO add score out of number of questions */
+                    document.querySelector('#question').innerHTML = "<h2>Quiz Completed.</h2>" + "<br>" + "<p>You scored: " + " out of " + N + " points.</p>";
+
                 }
 
             })
