@@ -153,15 +153,19 @@ def play_quizAPI(request, contestant_id):
     except Contestant.DoesNotExist:
         raise Http404("Contestant not found.")
 
-# Supply index n
+# Update quiz_score and supply index n
     if request.method == "PUT":
         data = json.loads(request.body)
         if data.get("question_index") is not None:
             # this makes the variable, n, accessible
             global n
             n = data["question_index"]
-        return JsonResponse({"message": "index successfully updated"})
+            return JsonResponse({"message": "index successfully updated."})
         # return JsonResponse({"question": "Got this far"})
+        if data.get("score_point") is True:
+            contestant.score_point()
+            contestant.save()
+            return JsonResponse({"message": "quiz_score successfully updated."})
 
 # Return question and answers with index n
     if request.method == "GET":

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Define question index. From 0 to N-1. Where N is the number of questions in the quiz.*/
     var n = 0;
     /* Define N, the number of questions in the quiz */
-    /* TODO. Get value of N from html page. TODO. First get value of N from count() in play_quiz route */
+    /* Get value of N from html page. First get value of N from count() in play_quiz route */
     /* var N = 10; */
     var N = document.querySelector('#number_questions').dataset.number_questions;
 
@@ -22,11 +22,32 @@ document.addEventListener('DOMContentLoaded', () => {
             /* Test to see if correct_answer has been updated from fetch */
             console.log(corr_answer);
 
+            /* Get contestant_id from document */
+            var contestant_id = document.querySelector('#contestant').dataset.id;
+
+            /* Ensure id is integer */
+            var id = parseInt(contestant_id);
+
+            console.log(id);
+
             /* Use this next line to increase score using PUT request */
-            /* if (button.dataset.answer == corr_answer)  {
-                alert('Correct Answer!'+ corr_answer);
+            if (button.dataset.answer == corr_answer)  {
+                /* alert('Correct Answer!'+ corr_answer); */
+                /* PUT request NOT to supply question index n (set to null/None here) and score_point: true as wish to update score at this point */
+                /* Note: the marks around the path are backticks not single quotation marks */
+                fetch(`/play_quizAPI/${id}`, {
+                    method:'PUT',
+                    body: JSON.stringify({
+                        question_index: null,
+                        score_point: true
+                    })
+                })
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                });
             }
-            else {
+            /* else {
                 alert('Wrong Answer!' + corr_answer);
             } */
 
@@ -54,20 +75,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (n <= N-1)   {
 
                     /* Get contestant_id from document */
-                    const contestant_id = document.querySelector('#contestant').dataset.id;
+                    /* REPLACED by var declaration on line 26 */
+                    /* const contestant_id = document.querySelector('#contestant').dataset.id; */
 
                     /* Ensure id is integer */
-                    const id = parseInt(contestant_id);
+                    /* const id = parseInt(contestant_id); */
                     /* const id = 4; */
 
                     console.log(id);
 
-                    /* PUT request to supply question index n */
+                    /* PUT request to supply question index n and score_point: false as don't wish to update score at this point */
                     /* Note: the marks around the path are backticks not single quotation marks */
                     fetch(`/play_quizAPI/${id}`, {
                         method:'PUT',
                         body: JSON.stringify({
-                            question_index: n
+                            question_index: n,
+                            score_point: false
                         })
                     })
                     .then(response => response.json())
@@ -115,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelectorAll('.multi_choice').forEach(button =>    {
                         button.remove();
                     })
+                    /* Remove 'Next' button */
                     next_btn.remove();
                     /* Replace Question with quiz_end text. TODO add score out of number of questions */
                     document.querySelector('#question').innerHTML = "<h2>Quiz Completed.</h2>" + "<br>" + "<p>You scored: " + " out of " + N + " points.</p>";
