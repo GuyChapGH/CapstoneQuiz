@@ -46,7 +46,7 @@ class Contestant(models.Model):
     def __str__(self):
         first_quiz = self.quiz.all().first()
         timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
-        return f"{self.user.username} at {timestamp}. Quizname: {first_quiz.quiz_name}. Score: {self.quiz_score}"
+        return f"{self.user.username} at {timestamp}. Quizname: {first_quiz.quiz_name}."
         # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def question(self, n):
@@ -86,3 +86,6 @@ class Contestant(models.Model):
 
     def score_point(self):
         self.quiz_score += 1
+
+    def q_score(self):
+        return f"{self.quiz_score}"

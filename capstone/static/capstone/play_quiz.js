@@ -6,6 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     /* var N = 10; */
     var N = document.querySelector('#number_questions').dataset.number_questions;
 
+    /* quiz_score declared here so global scope */
+    var quiz_score = 0;
+
+    /* Create score element */
+    const score_pElem = document.createElement("p");
+    /* Set to initial value */
+    score_pElem.innerHTML = 'Score: ' + quiz_score;
+
+    /* Append to #contestant */
+    document.querySelector('#contestant').append(score_pElem);
+
+
     document.querySelectorAll('.multi_choice').forEach(button => {
         button.onclick = () => {
             /* Button clicked stays hover colour */
@@ -115,6 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.querySelector('#answer3').innerHTML = contestant.multiple_choice3;
                             /* Add data for correct answer */
                             document.querySelector('#correct_answer').dataset.answer = contestant.correct_answer;
+                            /* Get quiz_score from fetch. Global variable */
+                            quiz_score = contestant.quiz_score;
+                            /* Replace innerHTML for quiz_score */
+                            /* q_score = 10; */
+                            score_pElem.innerHTML = 'Score: ' + quiz_score;
                         });
                     /* All multi_choice buttons are reenabled after new question setup.*/
                     /* All multi_choice buttons background colour set to red */
@@ -140,8 +157,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                     /* Remove 'Next' button */
                     next_btn.remove();
-                    /* Replace Question with quiz_end text. TODO add score out of number of questions */
-                    document.querySelector('#question').innerHTML = "<h2>Quiz Completed.</h2>" + "<br>" + "<p>You scored: " + " out of " + N + " points.</p>";
+                    /* Test */
+                    /* var q_score = 10; */
+                    /* Replace Question with quiz_end text. Shows score out of number of questions */
+                    document.querySelector('#question').innerHTML = "<h2>Quiz Completed.</h2>" + "<br>" + "<p>You scored: " + quiz_score + " out of " + N + " points.</p>";
 
                 }
 

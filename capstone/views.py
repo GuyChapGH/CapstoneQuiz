@@ -174,7 +174,8 @@ def play_quizAPI(request, contestant_id):
                              "multiple_choice1": contestant.multiple_choice1(n),
                              "multiple_choice2": contestant.multiple_choice2(n),
                              "multiple_choice3": contestant.multiple_choice3(n),
-                             "correct_answer": contestant.correct_answer(n)
+                             "correct_answer": contestant.correct_answer(n),
+                             "quiz_score": contestant.q_score()
                              })
         # return JsonResponse({"question_index": n})
 
