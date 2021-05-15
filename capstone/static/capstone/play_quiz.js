@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
     var n = 0;
     /* Define N, the number of questions in the quiz */
     /* Get value of N from html page. First get value of N from count() in play_quiz route */
-    /* var N = 10; */
     var N = document.querySelector('#number_questions').dataset.number_questions;
 
     /* quiz_score declared here so global scope */
@@ -11,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* Create score element */
     const score_pElem = document.createElement("p");
+
     /* Set to initial value */
     score_pElem.innerHTML = 'Score: ' + quiz_score;
 
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#contestant').append(score_pElem);
 
 
+/* Answer buttons */
     document.querySelectorAll('.multi_choice').forEach(button => {
         button.onclick = () => {
             /* Button clicked stays hover colour */
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             /* Use this next line to increase score using PUT request */
             if (button.dataset.answer == corr_answer)  {
-                /* alert('Correct Answer!'+ corr_answer); */
+
                 /* PUT request NOT to supply question index n (set to null/None here) and score_point: true as wish to update score at this point */
                 /* Note: the marks around the path are backticks not single quotation marks */
                 fetch(`/play_quizAPI/${id}`, {
@@ -57,11 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(response => response.json())
                 .then(result => {
                     console.log(result);
-                });
+
+                    /* GET request to retrieve quiz_score*/
+                    fetch(`/play_quizAPI/${id}`,    {
+                        method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(contestant => {
+
+                        /* Get quiz_score from fetch. Global variable */
+                        quiz_score = contestant.quiz_score;
+
+                        /* Replace innerHTML for quiz_score */
+                        score_pElem.innerHTML = 'Score: ' + quiz_score;
+                    })
+                })
             }
-            /* else {
-                alert('Wrong Answer!' + corr_answer);
-            } */
 
             /* Place tick next to correct answer */
             /* test: console.log('#' + corr_answer);*/
@@ -78,23 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (n <= 0) {
                 document.querySelector('#contestant').append(next_btn);
             }
-            /* console.log("n = " + n); */
+
             /* next_btn onclick function */
             next_btn.addEventListener('click', function()   {
                 /* increase question index by one */
                 n += 1;
                 /* Test if at the end of the quiz. If beyond last question open quiz_end page */
                 if (n <= N-1)   {
-
-                    /* Get contestant_id from document */
-                    /* REPLACED by var declaration on line 26 */
-                    /* const contestant_id = document.querySelector('#contestant').dataset.id; */
-
-                    /* Ensure id is integer */
-                    /* const id = parseInt(contestant_id); */
-                    /* const id = 4; */
-
-                    console.log(id);
 
                     /* PUT request to supply question index n and score_point: false as don't wish to update score at this point */
                     /* Note: the marks around the path are backticks not single quotation marks */
@@ -127,18 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
                             document.querySelector('#answer3').innerHTML = contestant.multiple_choice3;
                             /* Add data for correct answer */
                             document.querySelector('#correct_answer').dataset.answer = contestant.correct_answer;
-                            /* Get quiz_score from fetch. Global variable */
-                            quiz_score = contestant.quiz_score;
-                            /* Replace innerHTML for quiz_score */
-                            /* q_score = 10; */
-                            score_pElem.innerHTML = 'Score: ' + quiz_score;
                         });
                     /* All multi_choice buttons are reenabled after new question setup.*/
                     /* All multi_choice buttons background colour set to red */
                     document.querySelectorAll('.multi_choice').forEach(button => {
                         button.disabled = false;
                         button.style.backgroundColor="#D73338";
-                        /* button.style:hover.backgroundColor="#4C8100"; */
                         })
 
                     });
@@ -146,27 +142,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 /* If beyond last question open quiz_end page */
                 else {
-                    /* This call to open new page is not working. URL helper doesn't work in JavaScript??*/
-                    /* document.location.href = "{% url 'index' %}"; */
-                    /* This alternative works...*/
-                    /* document.location.href = "http://localhost:8000/"; */
-
                     /* Remove buttons at quiz_end */
                     document.querySelectorAll('.multi_choice').forEach(button =>    {
                         button.remove();
                     })
                     /* Remove 'Next' button */
                     next_btn.remove();
-                    /* Test */
-                    /* var q_score = 10; */
+
                     /* Replace Question with quiz_end text. Shows score out of number of questions */
                     document.querySelector('#question').innerHTML = "<h2>Quiz Completed.</h2>" + "<br>" + "<p>You scored: " + quiz_score + " out of " + N + " points.</p>";
 
                 }
 
             })
-
-                /* test: console.log(button.dataset.answer); */
         };
     });
 });
