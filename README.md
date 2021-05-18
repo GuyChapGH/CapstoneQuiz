@@ -12,3 +12,22 @@ learning platform (kahoot.com).
 
 ## Files
 
+## Specification
+
+### Define multiple choice questions
+
+### Define quiz by selecting a group of questions
+
+### Play quiz
+
+**Select quiz**
+
+**Play quiz**
+
+**End quiz**
+
+### Quiz results
+
+**Select quiz**
+
+**Display results**
