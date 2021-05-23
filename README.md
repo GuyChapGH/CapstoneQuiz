@@ -28,6 +28,6 @@ learning platform (kahoot.com).
 
 ### Quiz results
 
-**Select quiz**
+**Select results**
 
 **Display results**
