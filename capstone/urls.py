@@ -7,6 +7,7 @@ urlpatterns = [
     path("create_quiz/", views.create_quiz, name="create_quiz"),
     path("quiz_select/", views.quiz_select, name="quiz_select"),
     path("play_quiz/<int:contestant_id>", views.play_quiz, name="play_quiz"),
+    path("results_select/", views.results_select, name="results_select"),
 
     # API Routes
     path("play_quizAPI/<int:contestant_id>", views.play_quizAPI, name="play_quizAPI"),

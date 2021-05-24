@@ -10,6 +10,7 @@ from django.urls import reverse
 
 from .models import User
 from .models import Question
+from .models import Quiz
 from .models import Contestant
 
 from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm
@@ -167,7 +168,7 @@ def play_quizAPI(request, contestant_id):
             contestant.save()
             return JsonResponse({"message": "quiz_score successfully updated."})
 
-# Return question and answers with index n
+# Return question and answers with index n. Return quiz_score.
     if request.method == "GET":
         return JsonResponse({"question": contestant.question(n),
                              "multiple_choice0": contestant.multiple_choice0(n),
@@ -177,7 +178,27 @@ def play_quizAPI(request, contestant_id):
                              "correct_answer": contestant.correct_answer(n),
                              "quiz_score": contestant.q_score()
                              })
-        # return JsonResponse({"question_index": n})
+
+
+@login_required
+def results_select(request):
+    if request.method == 'POST':
+
+        # Get form quiz_input
+        quiz_id = request.POST["quiz_id"]
+
+        # TEST purposes
+        return render(request, "capstone/index.html",   {
+            "quiz_id": quiz_id
+        })
+        # return HttpResponseRedirect(reverse("play_quiz", args=(contestant_id,)))
+
+    else:
+        quizzes = Quiz.objects.all()
+        # return quiz_name and quiz_id from database
+        return render(request, "capstone/results_select.html", {
+            "quizzes": quizzes
+        })
 
 
 def login_view(request):
