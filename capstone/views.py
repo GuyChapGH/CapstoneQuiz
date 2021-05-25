@@ -1,4 +1,5 @@
 import json
+from json import dumps
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -187,11 +188,7 @@ def results_select(request):
         # Get form quiz_input
         quiz_id = request.POST["quiz_id"]
 
-        # TEST purposes
-        return render(request, "capstone/index.html",   {
-            "quiz_id": quiz_id
-        })
-        # return HttpResponseRedirect(reverse("play_quiz", args=(contestant_id,)))
+        return HttpResponseRedirect(reverse("results_display", args=(quiz_id,)))
 
     else:
         quizzes = Quiz.objects.all()
@@ -199,6 +196,15 @@ def results_select(request):
         return render(request, "capstone/results_select.html", {
             "quizzes": quizzes
         })
+
+
+@login_required
+def results_display(request, quiz_id):
+    data = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+
+    return render(request, "capstone/results_display.html", {
+        "data": data
+    })
 
 
 def login_view(request):
