@@ -188,11 +188,13 @@ def results_select(request):
         # Get form quiz_input
         quiz_id = request.POST["quiz_id"]
 
+        # Redirect to results_display html page with quiz_id
         return HttpResponseRedirect(reverse("results_display", args=(quiz_id,)))
 
     else:
+        # Get all quiz objects
         quizzes = Quiz.objects.all()
-        # return quiz_name and quiz_id from database
+        # return quiz_name and quiz_id from database to populate select drop down box
         return render(request, "capstone/results_select.html", {
             "quizzes": quizzes
         })
@@ -200,11 +202,45 @@ def results_select(request):
 
 @login_required
 def results_display(request, quiz_id):
-    data = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+    # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+    try:
+        queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+    except queryset.DoesNotExist:
+        raise Http404("Quiz results not found.")
+    # Get quiz name for given quiz_id
+    quiz_name = Quiz.objects.all().filter(id=quiz_id).first()
 
     return render(request, "capstone/results_display.html", {
-        "data": data
+        "quiz_id": quiz_id,
+        "quiz_name": quiz_name,
+        "queryset": queryset
     })
+
+
+@login_required
+@csrf_exempt
+def results_displayAPI(request, quiz_id):
+
+    if request.method == "GET":
+        # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+        try:
+            queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+        except queryset.DoesNotExist:
+            raise Http404("Quiz results not found.")
+
+        # Create empty lists for graph labels and data
+        labels = []
+        data = []
+
+        # Populate lists with values from queryset
+        for entry in queryset:
+            labels.append(entry.user.username)
+            data.append(entry.quiz_score)
+
+        return JsonResponse({
+            "labels": labels,
+            "data": data
+        })
 
 
 def login_view(request):

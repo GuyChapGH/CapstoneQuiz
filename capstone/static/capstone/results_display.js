@@ -1,16 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Get quiz_id from html page
+    var quiz_id = document.querySelector('#quiz_id').dataset.id;
 
-    var data_display = document.querySelector('#data_display').dataset.display;
+    /* GET request to retrieve quiz results*/
+    fetch(`/results_displayAPI/${quiz_id}`,    {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(results => {
 
-
-    // Set up
-    		const labels = ['TestUser1', 'TestUser2'];
+    // Set up barchart using chartjs code.
+    		// const labels = ['TestUser1', 'TestUser2'];
     		const data = {
-    			labels: labels,
+    			labels: results.labels,
     			datasets: [{
     				axis: 'y',
     				label: 'Quiz Score',
-    				data: [8, 10],
+    				data: results.data,
     				fill: false,
     				backgroundColor: [
     					'rgba(255, 99, 132, 1.0)',
@@ -41,11 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
     		};
 
         // Create chart
-
     		var barChart = new Chart(
     			document.getElementById('barChart'),
     			config
     		);
 
-
+    });
 })

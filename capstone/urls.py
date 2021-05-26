@@ -12,6 +12,7 @@ urlpatterns = [
 
     # API Routes
     path("play_quizAPI/<int:contestant_id>", views.play_quizAPI, name="play_quizAPI"),
+    path("results_displayAPI/<int:quiz_id>", views.results_displayAPI, name="results_displayAPI"),
 
     # User paths
     path("login", views.login_view, name="login"),
