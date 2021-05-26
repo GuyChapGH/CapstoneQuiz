@@ -1,0 +1,30 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+    <h1>Select Results</h1>
+
+    <form action="{% url 'results_select' %}" method="post" novalidate>
+        {% csrf_token %}
+    <table>
+    <tr>
+        <th>Quiz:</th>
+        <td>
+            <select name="quiz_id" multiple>
+                {% for quiz in quizzes %}
+                <option value="{{ quiz.id }}">{{ quiz.quiz_name }}</option>
+                {% empty %}
+                    <p>No quizzes.</p>
+                {% endfor %}
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td><input type="submit" value="Select"></td>
+    </tr>
+    </table>
+    </form>
+
+{% endblock %}

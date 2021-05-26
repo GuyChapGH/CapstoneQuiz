@@ -47,7 +47,7 @@ class Contestant(models.Model):
         first_quiz = self.quiz.all().first()
         timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
         return f"{self.user.username} at {timestamp}. Quizname: {first_quiz.quiz_name}."
-        # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
+    # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def question(self, n):
         first_quiz = self.quiz.all().first()

@@ -1,0 +1,27 @@
+{% extends "capstone/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+    <h1>Results Display</h1>
+    <div id="quiz_id" data-id="{{ quiz_id }}"></div>
+    <h2>{{ quiz_name }}</h2>
+
+                {% for item in queryset %}
+                <p>{{ item.user.username }} at {{ item.timestamp }} scored: {{ item.quiz_score }} points.</p>
+                {% empty %}
+                    <p>No data.</p>
+                {% endfor %}
+
+    <div id="results"></div>
+
+    <div class="container">
+        <div class="row">
+		     <canvas id="barChart"></canvas>
+	    </div>
+    </div>
+    {% block script %}
+        <script src="{% static 'capstone/results_display.js' %}"></script>
+    {% endblock %}
+
+{% endblock %}

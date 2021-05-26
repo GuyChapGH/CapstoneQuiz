@@ -1,4 +1,5 @@
 import json
+from json import dumps
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -10,6 +11,7 @@ from django.urls import reverse
 
 from .models import User
 from .models import Question
+from .models import Quiz
 from .models import Contestant
 
 from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm
@@ -167,7 +169,7 @@ def play_quizAPI(request, contestant_id):
             contestant.save()
             return JsonResponse({"message": "quiz_score successfully updated."})
 
-# Return question and answers with index n
+# Return question and answers with index n. Return quiz_score.
     if request.method == "GET":
         return JsonResponse({"question": contestant.question(n),
                              "multiple_choice0": contestant.multiple_choice0(n),
@@ -177,7 +179,68 @@ def play_quizAPI(request, contestant_id):
                              "correct_answer": contestant.correct_answer(n),
                              "quiz_score": contestant.q_score()
                              })
-        # return JsonResponse({"question_index": n})
+
+
+@login_required
+def results_select(request):
+    if request.method == 'POST':
+
+        # Get form quiz_input
+        quiz_id = request.POST["quiz_id"]
+
+        # Redirect to results_display html page with quiz_id
+        return HttpResponseRedirect(reverse("results_display", args=(quiz_id,)))
+
+    else:
+        # Get all quiz objects
+        quizzes = Quiz.objects.all()
+        # return quiz_name and quiz_id from database to populate select drop down box
+        return render(request, "capstone/results_select.html", {
+            "quizzes": quizzes
+        })
+
+
+@login_required
+def results_display(request, quiz_id):
+    # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+    try:
+        queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+    except queryset.DoesNotExist:
+        raise Http404("Quiz results not found.")
+    # Get quiz name for given quiz_id
+    quiz_name = Quiz.objects.all().filter(id=quiz_id).first()
+
+    return render(request, "capstone/results_display.html", {
+        "quiz_id": quiz_id,
+        "quiz_name": quiz_name,
+        "queryset": queryset
+    })
+
+
+@login_required
+@csrf_exempt
+def results_displayAPI(request, quiz_id):
+
+    if request.method == "GET":
+        # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+        try:
+            queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+        except queryset.DoesNotExist:
+            raise Http404("Quiz results not found.")
+
+        # Create empty lists for graph labels and data
+        labels = []
+        data = []
+
+        # Populate lists with values from queryset
+        for entry in queryset:
+            labels.append(entry.user.username)
+            data.append(entry.quiz_score)
+
+        return JsonResponse({
+            "labels": labels,
+            "data": data
+        })
 
 
 def login_view(request):
