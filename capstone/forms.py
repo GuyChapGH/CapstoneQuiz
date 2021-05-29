@@ -35,3 +35,7 @@ class ContestantSelectForm(forms.ModelForm):
     class Meta:
         model = Contestant
         exclude = ['user', 'timestamp', 'quiz_score']
+
+
+class ResultsSelectForm(forms.Form):
+    quiz = forms.ModelChoiceField(queryset=Quiz.objects.all())

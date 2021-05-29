@@ -14,7 +14,7 @@ from .models import Question
 from .models import Quiz
 from .models import Contestant
 
-from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm
+from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm, ResultsSelectForm
 
 
 # Create your views here.
@@ -186,17 +186,25 @@ def results_select(request):
     if request.method == 'POST':
 
         # Get form quiz_input
-        quiz_id = request.POST["quiz_id"]
+        form = ResultsSelectForm(request.POST)
+        # Check form validation
+        if form.is_valid():
+            # Get quiz object from form. And capture quiz_id.
+            quiz_id = form.cleaned_data['quiz'].id
 
-        # Redirect to results_display html page with quiz_id
-        return HttpResponseRedirect(reverse("results_display", args=(quiz_id,)))
+            # Redirect to results_display html page with quiz_id
+            return HttpResponseRedirect(reverse("results_display", args=(quiz_id,)))
+
+        else:
+            # Return part completed form
+            return render(request, "capstone/results_select.html",  {
+                "form": form
+            })
 
     else:
-        # Get all quiz objects
-        quizzes = Quiz.objects.all()
-        # return quiz_name and quiz_id from database to populate select drop down box
+        # Return fresh form
         return render(request, "capstone/results_select.html", {
-            "quizzes": quizzes
+            "form": ResultsSelectForm()
         })
 
 

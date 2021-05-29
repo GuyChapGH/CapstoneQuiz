@@ -8,18 +8,7 @@
     <form action="{% url 'results_select' %}" method="post" novalidate>
         {% csrf_token %}
     <table>
-    <tr>
-        <th>Quiz:</th>
-        <td>
-            <select name="quiz_id" multiple>
-                {% for quiz in quizzes %}
-                <option value="{{ quiz.id }}">{{ quiz.quiz_name }}</option>
-                {% empty %}
-                    <p>No quizzes.</p>
-                {% endfor %}
-            </select>
-        </td>
-    </tr>
+        {{ form.as_table }}
     <tr>
         <td>&nbsp;</td>
         <td><input type="submit" value="Select"></td>
