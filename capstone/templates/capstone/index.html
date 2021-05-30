@@ -3,6 +3,37 @@
 
 
 {% block body %}
-    <h1>Hello, world!</h1>
+    <h1>Capstone Quiz</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            {% if user.is_authenticated %}
+            <h2>Create Question</h2>
+            <p>To create a new question go to the 'Create Question' page...</p>
+            <br>
+            <h2>Create Quiz</h2>
+            <p>To create a new quiz select your questions and save as new quiz name...</p>
+            <br>
+            <h2>Play</h2>
+            <p>To play a quiz, select quiz name from drop down box. Then click on your answer. The
+                correct answer is shown with a 'tick'. Press 'Next' to get the next question.</p>
+            <br>
+            <h2>Results</h2>
+            <p> Select the quiz name from the drop down box. Results of the last five quiz contestants are
+                    shown as a barchart.</p>
+            <br>
+            <h2>Log Out</h2>
+            <p>Click on 'Log Out', to exit the quiz.</p>
+            <br>
+            {% else %}
+            <h2>Register or Log In</h2>
+            <p>If you're a new user, first you must 'Register'. Otherwise 'Log In' with your username and password...</p>
+            <br>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
     				data: results.data,
     				fill: false,
     				backgroundColor: [
-    					'rgba(255, 99, 132, 1.0)',
-    					'rgba(255, 159,64, 1.0)'
+    					'rgba(215, 51, 56, 1.0)',
+    					'rgba(76, 129, 0, 1.0)'
     				],
     				borderColor: [
-    					'rgb(255, 99, 132)',
-    					'rgb(255, 159, 64)'
+    					'rgb(215, 51, 56)',
+    					'rgb(76, 129, 0)'
     				],
     				borderWidth: 1
     				}]

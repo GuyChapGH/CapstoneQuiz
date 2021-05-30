@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             /* Append button to #contestant paragraph. Append is done once for question
             index n less than or equal to zero */
             if (n <= 0) {
-                document.querySelector('#contestant').append(next_btn);
+                document.querySelector('#next_button').append(next_btn);
             }
 
             /* next_btn onclick function */
