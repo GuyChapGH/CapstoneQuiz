@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             /* Create 'Next' button */
             const next_btn = document.createElement("button");
             next_btn.innerHTML = "Next";
+            next_btn.className = "btn btn-primary"
 
             /* Append button to #contestant paragraph. Append is done once for question
             index n less than or equal to zero */
