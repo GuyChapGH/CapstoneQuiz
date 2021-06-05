@@ -1,11 +1,9 @@
 import json
-from json import dumps
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -148,7 +146,6 @@ def play_quiz(request, contestant_id):
 
 
 @login_required
-@csrf_exempt
 def play_quizAPI(request, contestant_id):
     try:
         contestant = Contestant.objects.get(pk=contestant_id)
@@ -226,7 +223,6 @@ def results_display(request, quiz_id):
 
 
 @login_required
-@csrf_exempt
 def results_displayAPI(request, quiz_id):
 
     if request.method == "GET":

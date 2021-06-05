@@ -33,8 +33,3 @@ button:disabled.multi_choice   {
     /* font-weight: bold; */
     color: black;
 }
-button.NextButton  {
-    border-style: solid;
-    border-width: 1px;
-    background-color: white;
-}
