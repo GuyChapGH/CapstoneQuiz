@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             next_btn.innerHTML = "Next";
             next_btn.className = "btn btn-primary"
 
-            /* Append button to #contestant paragraph. Append is done once for question
+            /* Append button to #next_button div. Append is done once for question
             index n less than or equal to zero */
             if (n <= 0) {
                 document.querySelector('#next_button').append(next_btn);

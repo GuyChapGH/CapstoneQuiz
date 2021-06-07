@@ -2,6 +2,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get quiz_id from html page
     var quiz_id = document.querySelector('#quiz_id').dataset.id;
 
+    //Code from Django docs to handle CSRF token in Fetch calls
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        const csrftoken = getCookie('csrftoken');
+
     /* GET request to retrieve quiz results*/
     fetch(`/results_displayAPI/${quiz_id}`,    {
         method: 'GET',
@@ -14,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(results => {
 
     // Set up barchart using chartjs code.
-    		// const labels = ['TestUser1', 'TestUser2'];
     		const data = {
     			labels: results.labels,
     			datasets: [{
@@ -57,23 +74,5 @@ document.addEventListener('DOMContentLoaded', () => {
     		);
 
     });
-
-    //Code from Django docs to handle CSRF token in Fetch calls
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-        const csrftoken = getCookie('csrftoken');
 
 })
