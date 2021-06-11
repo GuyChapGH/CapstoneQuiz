@@ -22,17 +22,18 @@ The number of questions in the quiz is also established and the number of points
 ## Files
 
 ### forms.py
+This file contains three ModelForm classes: `QuestionCreateForm`, `QuizCreateForm` and `ContestantSelectForm`. This makes use of the Django ability to create a Form class from a Django model. There is one Form class declared: `ResultsSelectForm`. Django's form functionality simplifies and automates form processing including form validation.
+
 ### models.py
-The User model is 
+In this file we have the `User` model, used for managing login/logout and register. The `Question` model, that captures the multiple-choice questions. The `Quiz` model that groups questions together and the `Contestant` model used for playing the quiz.
 
-The Question model is 
+The `Contestant` model was originally designed to have one contestant object for each user and to be reused for each quiz played. Instead the application was implemented with a new contestant object for each quiz played. This was seen to be more natural but required that the 'first_quiz' be accessed for each object as it was previously a many-to-many field. A future improvement would be to redesign this field to have a many-to-one (ForeignKey) relationship. 
 
-The Quiz model is
-
-The Contestant model was originally designed to have one contestant object for each user and reused for each quiz played. Instead the application was implemented with a new contestant object for each quiz played. This was seeen to be more natural but required that the 'first_quiz' be accessed for each object as it was previously a many-to-many field. A future improvement would be to redesign this field as a many-to-one (ForeignKey) relationship.
-
+Nine methods are declared for the `Contestant` model. These support the 'play_quiz' and 'play_quizAPI' views and are used to play the quiz. 
 
 ### urls.py
+The paths are defined in this file. Seven paths reference 'index', 'create_question', 'create_quiz', 'quiz_select', 'play_quiz', 'results_select' and 'results_display' views. Two paths are for the API routes(views). And three are related to the User functionality views.
+
 ### views.py
 
 ### play_quiz.js
@@ -49,6 +50,10 @@ The Contestant model was originally designed to have one contestant object for e
 ### results_select.html
 
 ## How to run the application
+No additional Python packages are required to run this application. To run, use `$ python manage.py runserver` in a suitable Python/ Django virtual environment.
+
+## Additional information
+The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the layout.html file.
 
 ## Specification
 
