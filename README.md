@@ -58,7 +58,31 @@ In 'results_displayAPI' the quiz results are sampled in a format that can be ren
 The remaining three views: 'login_view', 'logout_view' and 'register' all handle the user access to the application and are unchanged from CS50W 2020 Project 4.
 
 ### play_quiz.js
+This file controls the progress through the quiz using JavaScript. The content is as follows:
+
+    1. Define 'n', the question index. Define 'N', the number of questions in the quiz. Define 'quiz_score' and display on quiz page.
+    2. Answer buttons, onclick function.
+    3. If correct answer clicked,
+        1. fetch request to increase 'quiz_score',
+        2. update 'quiz_score' on quiz page.
+    4. Add 'tick' to correct answer on quiz page.
+    5. Create 'Next' button onclick function, if clicked,
+        1. increase 'n' by one,
+        2. test if 'n' less than or equal to 'N-1' (still within quiz),
+          1. fetch next question and answers,
+          2. update question and answer buttons on quiz page.
+        else,
+          1. go to 'quiz_end'. Remove answer buttons, remove 'Next' button and show score out of the number of points available.
+    6. Block of code to handle CSRF-token in fetch calls.
+
 ### results_display.js
+This file handles the generation of the barchart from results data using JavaScript and the data visualisation library, [Chart.js](https://www.chartjs.org). The content is as follows:
+
+    1. Get 'quiz_id'.
+    2. Block of code to handle CSRF-token in fetch calls.
+    3. Fetch barchart data and labels for given 'quiz_id'.
+    4. Draw barchart using library code.
+
 ### styles.css
 
 ### create_question.html
@@ -74,7 +98,7 @@ The remaining three views: 'login_view', 'logout_view' and 'register' all handle
 No additional Python packages are required to run this application. To run, use `$ python manage.py runserver` in a suitable Python/ Django virtual environment.
 
 ## Additional information
-The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the layout.html file.
+The mobile responsive Grid System, Buttons and Navigation Bar is provided by [Bootstrap](https://getbootstrap.com) framework. A link is used in the 'layout.html' file. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the 'layout.html' file.
 
 ## Specification
 
