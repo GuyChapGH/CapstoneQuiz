@@ -117,23 +117,3 @@ No additional Python packages are required to run this application. To run, use 
 
 ## Additional information
 The mobile responsive Grid System, Buttons and Navigation Bar are provided by the [Bootstrap](https://getbootstrap.com) framework. A link is used in the 'layout.html' file. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the 'layout.html' file.
-
-## Specification
-
-### 1. Define multiple choice questions
-
-### 2. Define quiz by selecting a group of questions
-
-### 3. Play quiz
-
-**3.1 Select quiz**
-
-**3.2 Play quiz**
-
-**3.3 End quiz**
-
-### 4. Quiz results
-
-**4.1 Select results**
-
-**4.2 Display results**
