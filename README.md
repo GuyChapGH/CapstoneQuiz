@@ -16,9 +16,8 @@ This project has three models (not including the User model). They build on each
 
 The complexity of the application is best demonstrated by the 'play_quiz.js' JavaScript file. 
 
-Once a quiz has been selected, this file controls the progress through the quiz. The 'Next' button and fetch calls take the user through each question in the quiz. The score responds to clicking on an answer button. The answer selected is checked against the correct answer and the score is updated by another fetch call. There is one point available per question and after the user has selected their answer, the correct answer is displayed on screen with a 'tick'. 
+Once a quiz has been selected, this file controls the progress through the quiz. It responds to clicking on an answer button. The answer selected is checked against the correct answer and the score is updated by a fetch call. There is one point available per question. After the user has selected their answer, the correct answer is displayed on screen with a 'tick'. The 'Next' button and fetch calls take the user through each question in the quiz. The question index is tested against the number of questions in the quiz at each step. At the end of the quiz, the number of points scored out of the total available is shown.
 
-The number of questions in the quiz is also established and the number of points scored out of the total available is shown at the end of the quiz.
 ## Files
 
 ### forms.py
@@ -51,7 +50,7 @@ As the quiz progresses fetch calls are used, index n, to call up the nth questio
 
 The 'results_select' view takes input from the `ResultsSelectForm` to get the id of the results in which the user is interested.
 
-The results for the given id are handled by the 'results_display' view and they are rendered in the asssociated template.
+The last five quiz results for the given id are handled by the 'results_display' view and they are rendered in the asssociated template.
 
 In 'results_displayAPI' the quiz results are sampled in a format that can be rendered into a barchart using the [Chart.js](https://www.chartjs.org) data visualisation library.
 
@@ -84,38 +83,57 @@ This file handles the generation of the barchart from results data using JavaScr
     4. Draw barchart using library code.
 
 ### styles.css
+This file contains CSS styling for 'create_question.html', 'create_quiz.html' and 'play_quiz.html' templates.
 
 ### create_question.html
+This template renders the `QuestionCreateForm` and the last saved question.
+
 ### create_quiz.html
+This template renders the `QuizCreateForm`.
+
 ### index.html
+This file contains text instructions for using the application.
+
 ### layout.html
+This is the base template extended in all the template files. It provides the navigation bar and loads [Bootstrap](https://getbootstrap.com) and [Chart.js](https://www.chartjs.org) libraries and the 'styles.css' file.
+
 ### play_quiz.html
+This template works in conjunction with the 'play_quiz.js' file. It renders the first question and answers of the quiz and holds data used by the JavaScript file.
+
 ### quiz_select.html
+This template renders the `ContestantSelectForm`.
+
 ### results_display.html
+Quiz results are rendered in this template and it provides a container for the barchart 'canvas' used by 'results_display.js'.
+
 ### results_select.html
+The `ResultsSelectForm` is rendered in this template.
+
+### login.html and register.html
+These two templates contain forms for handling user functionality and are unchanged from CS50W 2020 Project 4.
 
 ## How to run the application
 No additional Python packages are required to run this application. To run, use `$ python manage.py runserver` in a suitable Python/ Django virtual environment.
 
 ## Additional information
-The mobile responsive Grid System, Buttons and Navigation Bar is provided by [Bootstrap](https://getbootstrap.com) framework. A link is used in the 'layout.html' file. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the 'layout.html' file.
+The mobile responsive Grid System, Buttons and Navigation Bar are provided by the [Bootstrap](https://getbootstrap.com) framework. A link is used in the 'layout.html' file. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the 'layout.html' file.
 
 ## Specification
 
-### Define multiple choice questions
+### 1. Define multiple choice questions
 
-### Define quiz by selecting a group of questions
+### 2. Define quiz by selecting a group of questions
 
-### Play quiz
+### 3. Play quiz
 
-**Select quiz**
+**3.1 Select quiz**
 
-**Play quiz**
+**3.2 Play quiz**
 
-**End quiz**
+**3.3 End quiz**
 
-### Quiz results
+### 4. Quiz results
 
-**Select results**
+**4.1 Select results**
 
-**Display results**
+**4.2 Display results**
