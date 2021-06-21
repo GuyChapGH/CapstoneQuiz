@@ -116,4 +116,4 @@ These two templates contain forms for handling user functionality and are unchan
 No additional Python packages are required to run this application. To run, use `$ python manage.py runserver` in a suitable Python/ Django virtual environment.
 
 ## Additional information
-The mobile responsive Grid System, Buttons and Navigation Bar are provided by the [Bootstrap](https://getbootstrap.com) framework. A link is used in the 'layout.html' file. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). This is loaded automatically from a link in the 'layout.html' file.
+The mobile responsive Grid System, Buttons and Navigation Bar are provided by the [Bootstrap](https://getbootstrap.com) framework. The data visualisation library used in the application is [Chart.js](https://www.chartjs.org). They are both loaded automatically from links in the 'layout.html' file.
