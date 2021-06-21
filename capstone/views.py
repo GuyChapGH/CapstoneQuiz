@@ -109,6 +109,7 @@ def play_quiz(request, contestant_id):
         raise Http404("Contestant not found.")
 
     # index, n, controls question in quiz. n=0 is first question and n=N-1 is last question
+    global n
     n = 0
 
     # question uses method defined in Contestant model
