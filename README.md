@@ -1,4 +1,8 @@
 # Capstone Quiz Application
+## Notes
+
+This began as a copy of the CS50wPFP repository. 
+It was set up to allow for the refactoring of the code and the ultimate deployment to the web.
 
 ## Introduction
 The Capstone Quiz Application is an user-defined multiple-choice quiz application. 
