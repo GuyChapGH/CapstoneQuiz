@@ -10,7 +10,7 @@ from django.urls import reverse
 from .models import User
 from .models import Question
 from .models import Quiz
-from .models import Contestant
+from .models import Contest
 
 from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm, ResultsSelectForm
 

@@ -37,51 +37,43 @@ class Quiz(models.Model):
         return f"{self.quiz_name}"
 
 
-class Contestant(models.Model):
+class Contest(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="contestant")
     timestamp = models.DateTimeField(auto_now_add=True)
-    quiz = models.ManyToManyField("Quiz")
+    quiz = models.ForeignKey("Quiz", on_delete=models.CASCADE)
     quiz_score = models.IntegerField(default=0)
 
     def __str__(self):
-        first_quiz = self.quiz.all().first()
         timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
-        return f"{self.user.username} at {timestamp}. Quizname: {first_quiz.quiz_name}."
+        return f"{self.user.username} at {timestamp}. Quizname: {self.quiz.quiz_name}."
     # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def question(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.content}"
 
     def multiple_choice0(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.answer0}"
 
     def multiple_choice1(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.answer1}"
 
     def multiple_choice2(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.answer2}"
 
     def multiple_choice3(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.answer3}"
 
     def correct_answer(self, n):
-        first_quiz = self.quiz.all().first()
-        question = first_quiz.questions.all()[n]
+        question = self.quiz.questions.all()[n]
         return f"{question.correct_answer}"
 
     def questions_in_quiz(self):
-        first_quiz = self.quiz.all().first()
-        number_questions = first_quiz.questions.count()
+        number_questions = self.quiz.questions.count()
         return f"{number_questions}"
 
     def score_point(self):
