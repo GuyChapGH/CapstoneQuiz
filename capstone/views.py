@@ -12,7 +12,7 @@ from .models import Question
 from .models import Quiz
 from .models import Contest
 
-from .forms import QuestionCreateForm, QuizCreateForm, ContestantSelectForm, ResultsSelectForm
+from .forms import QuestionCreateForm, QuizCreateForm, ContestSelectForm, ResultsSelectForm
 
 
 # Create your views here.
@@ -79,16 +79,16 @@ def quiz_select(request):
     if request.method == 'POST':
 
         # Get form input
-        form = ContestantSelectForm(request.POST)
+        form = ContestSelectForm(request.POST)
 
         # Check all fields correct, complete user field with current user and save
         if form.is_valid():
             form.instance.user = request.user
             form.save()
 
-            # Get id from last created Contestant object
-            contestant_id = Contestant.objects.all().last().id
-            return HttpResponseRedirect(reverse("play_quiz", args=(contestant_id,)))
+            # Get id from last created Contest object
+            contest_id = Contest.objects.all().last().id
+            return HttpResponseRedirect(reverse("play_quiz", args=(contest_id,)))
         else:
             # return part completed form
             return render(request, "capstone/quiz_select.html", {
@@ -97,45 +97,45 @@ def quiz_select(request):
     else:
         # return fresh form
         return render(request, "capstone/quiz_select.html", {
-            "form": ContestantSelectForm()
+            "form": ContestSelectForm()
         })
 
 
 @login_required
-def play_quiz(request, contestant_id):
+def play_quiz(request, contest_id):
     try:
-        contestant = Contestant.objects.get(pk=contestant_id)
-    except Contestant.DoesNotExist:
-        raise Http404("Contestant not found.")
+        contest = Contest.objects.get(pk=contest_id)
+    except Contest.DoesNotExist:
+        raise Http404("Contest not found.")
 
     # index, n, controls question in quiz. n=0 is first question and n=N-1 is last question
     global n
     n = 0
 
-    # question uses method defined in Contestant model
-    question = contestant.question(n)
+    # question uses method defined in Contest model
+    question = contest.question(n)
 
-    # multiple_choice uses method defined  in Contestant model
-    multiple_choice0 = contestant.multiple_choice0(n)
+    # multiple_choice uses method defined  in Contest model
+    multiple_choice0 = contest.multiple_choice0(n)
 
-    # multiple_choice uses method defined  in Contestant model
-    multiple_choice1 = contestant.multiple_choice1(n)
+    # multiple_choice uses method defined  in Contest model
+    multiple_choice1 = contest.multiple_choice1(n)
 
-    # multiple_choice uses method defined  in Contestant model
-    multiple_choice2 = contestant.multiple_choice2(n)
+    # multiple_choice uses method defined  in Contest model
+    multiple_choice2 = contest.multiple_choice2(n)
 
-    # multiple_choice uses method defined  in Contestant model
-    multiple_choice3 = contestant.multiple_choice3(n)
+    # multiple_choice uses method defined  in Contest model
+    multiple_choice3 = contest.multiple_choice3(n)
 
-    # first_correct_answer uses method defined in Contestant model
-    correct_answer = contestant.correct_answer(n)
+    # first_correct_answer uses method defined in Contest model
+    correct_answer = contest.correct_answer(n)
 
-    # number of questions in quiz uses method defined in Contestant model
-    number_questions = contestant.questions_in_quiz()
+    # number of questions in quiz uses method defined in Contest model
+    number_questions = contest.questions_in_quiz()
 
     return render(request, "capstone/play_quiz.html",   {
-        "contestant_id": contestant_id,
-        "contestant": contestant,
+        "contest_id": contest_id,
+        "contest": contest,
         "question": question,
         "multiple_choice0": multiple_choice0,
         "multiple_choice1": multiple_choice1,
@@ -147,11 +147,11 @@ def play_quiz(request, contestant_id):
 
 
 @login_required
-def play_quizAPI(request, contestant_id):
+def play_quizAPI(request, contest_id):
     try:
-        contestant = Contestant.objects.get(pk=contestant_id)
-    except Contestant.DoesNotExist:
-        raise Http404("Contestant not found.")
+        contest = Contest.objects.get(pk=contest_id)
+    except Contest.DoesNotExist:
+        raise Http404("Contest not found.")
 
 # Update quiz_score and supply index n
     if request.method == "PUT":
@@ -163,19 +163,19 @@ def play_quizAPI(request, contestant_id):
             return JsonResponse({"message": "index successfully updated."})
         # return JsonResponse({"question": "Got this far"})
         if data.get("score_point") is True:
-            contestant.score_point()
-            contestant.save()
+            contest.score_point()
+            contest.save()
             return JsonResponse({"message": "quiz_score successfully updated."})
 
 # Return question and answers with index n. Return quiz_score.
     if request.method == "GET":
-        return JsonResponse({"question": contestant.question(n),
-                             "multiple_choice0": contestant.multiple_choice0(n),
-                             "multiple_choice1": contestant.multiple_choice1(n),
-                             "multiple_choice2": contestant.multiple_choice2(n),
-                             "multiple_choice3": contestant.multiple_choice3(n),
-                             "correct_answer": contestant.correct_answer(n),
-                             "quiz_score": contestant.q_score()
+        return JsonResponse({"question": contest.question(n),
+                             "multiple_choice0": contest.multiple_choice0(n),
+                             "multiple_choice1": contest.multiple_choice1(n),
+                             "multiple_choice2": contest.multiple_choice2(n),
+                             "multiple_choice3": contest.multiple_choice3(n),
+                             "correct_answer": contest.correct_answer(n),
+                             "quiz_score": contest.q_score()
                              })
 
 
@@ -208,9 +208,9 @@ def results_select(request):
 
 @login_required
 def results_display(request, quiz_id):
-    # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+    # Get all contest objects for given quiz_id, order by timestamp and take the five most recent.
     try:
-        queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+        queryset = Contest.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
     except queryset.DoesNotExist:
         raise Http404("Quiz results not found.")
     # Get quiz name for given quiz_id
@@ -227,9 +227,9 @@ def results_display(request, quiz_id):
 def results_displayAPI(request, quiz_id):
 
     if request.method == "GET":
-        # Get all contestant objects for given quiz_id, order by timestamp and take the five most recent.
+        # Get all contest objects for given quiz_id, order by timestamp and take the five most recent.
         try:
-            queryset = Contestant.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
+            queryset = Contest.objects.all().filter(quiz__id=quiz_id).order_by('-timestamp')[:5]
         except queryset.DoesNotExist:
             raise Http404("Quiz results not found.")
 

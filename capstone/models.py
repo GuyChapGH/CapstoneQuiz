@@ -38,13 +38,15 @@ class Quiz(models.Model):
 
 
 class Contest(models.Model):
+    # id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="contestant")
     timestamp = models.DateTimeField(auto_now_add=True)
     quiz = models.ForeignKey("Quiz", on_delete=models.CASCADE)
     quiz_score = models.IntegerField(default=0)
 
     def __str__(self):
-        timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
+        # timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
+        timestamp = self.timestamp.strftime("%H:%M:%S,%A/%m/%Y")
         return f"{self.user.username} at {timestamp}. Quizname: {self.quiz.quiz_name}."
     # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 

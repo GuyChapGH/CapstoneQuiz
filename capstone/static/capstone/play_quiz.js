@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Set to initial value */
     score_pElem.innerHTML = 'Score: ' + quiz_score;
 
-    /* Append to #contestant */
-    document.querySelector('#contestant').append(score_pElem);
+    /* Append to #contest */
+    document.querySelector('#contest').append(score_pElem);
 
 
 /* Answer buttons */
@@ -35,11 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
             /* Test to see if correct_answer has been updated from fetch */
             console.log(corr_answer);
 
-            /* Get contestant_id from document */
-            var contestant_id = document.querySelector('#contestant').dataset.id;
+            /* Get contest_id from document */
+            var contest_id = document.querySelector('#contest').dataset.id;
 
             /* Ensure id is integer */
-            var id = parseInt(contestant_id);
+            var id = parseInt(contest_id);
 
             console.log(id);
 
@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     })
                     .then(response => response.json())
-                    .then(contestant => {
+                    .then(contest => {
 
                         /* Get quiz_score from fetch. Global variable */
-                        quiz_score = contestant.quiz_score;
+                        quiz_score = contest.quiz_score;
 
                         /* Replace innerHTML for quiz_score */
                         score_pElem.innerHTML = 'Score: ' + quiz_score;
@@ -133,19 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         })
                         .then(response => response.json())
-                        .then(contestant => {
-                            console.log(contestant.question);
-                            console.log(contestant.multiple_choice0);
+                        .then(contest => {
+                            console.log(contest.question);
+                            console.log(contest.multiple_choice0);
 
                         /* Pick up id for question and replace innerHTML */
-                            document.querySelector('#question').innerHTML = contestant.question;
+                            document.querySelector('#question').innerHTML = contest.question;
                         /* Pick up span id for multiple choice answer and replace innerHTML */
-                            document.querySelector('#answer0').innerHTML = contestant.multiple_choice0;
-                            document.querySelector('#answer1').innerHTML = contestant.multiple_choice1;
-                            document.querySelector('#answer2').innerHTML = contestant.multiple_choice2;
-                            document.querySelector('#answer3').innerHTML = contestant.multiple_choice3;
+                            document.querySelector('#answer0').innerHTML = contest.multiple_choice0;
+                            document.querySelector('#answer1').innerHTML = contest.multiple_choice1;
+                            document.querySelector('#answer2').innerHTML = contest.multiple_choice2;
+                            document.querySelector('#answer3').innerHTML = contest.multiple_choice3;
                             /* Add data for correct answer */
-                            document.querySelector('#correct_answer').dataset.answer = contestant.correct_answer;
+                            document.querySelector('#correct_answer').dataset.answer = contest.correct_answer;
                         });
                     /* All multi_choice buttons are reenabled after new question setup.*/
                     /* All multi_choice buttons background colour set to red */

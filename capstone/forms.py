@@ -31,7 +31,7 @@ class QuizCreateForm(forms.ModelForm):
         exclude = ['user', 'timestamp']
 
 
-class ContestantSelectForm(forms.ModelForm):
+class ContestSelectForm(forms.ModelForm):
     class Meta:
         model = Contest
         exclude = ['user', 'timestamp', 'quiz_score']
