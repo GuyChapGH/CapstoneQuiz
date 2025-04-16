@@ -42,9 +42,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'r2jax5s5=$oselivs9hn1+x2xp+o5g
 
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+# Added for deployment to PythonAnywhere
+ALLOWED_HOSTS = ['57workplace.pythonanywhere.com', '127.0.0.1']
 
-
+CSRF_TRUSTED_ORIGINS = ['https://57workplace.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
