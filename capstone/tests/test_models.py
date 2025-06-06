@@ -19,6 +19,27 @@ class QuestionModelTest(TestCase):
         max_length = question._meta.get_field('answer0').max_length
         self.assertEqual(max_length, 30)
 
+    def test_answer1_max_length(self):
+            question = Question.objects.get(id=1)
+            max_length = question._meta.get_field('answer1').max_length
+            self.assertEqual(max_length, 30)
 
+    def test_answer2_max_length(self):
+        question = Question.objects.get(id=1)
+        max_length = question._meta.get_field('answer2').max_length
+        self.assertEqual(max_length, 30)
 
+    def test_answer3_max_length(self):
+        question = Question.objects.get(id=1)
+        max_length = question._meta.get_field('answer3').max_length
+        self.assertEqual(max_length, 30)
+
+    def test_correct_answer_max_length(self):
+        question = Question.objects.get(id=1)
+        max_length = question._meta.get_field('correct_answer').max_length
+        self.assertEqual(max_length, 30)
     
+    def test_object_name_is_question_content(self):
+        question = Question.objects.get(id=1)
+        expected_object_name = f'Question: {question.content}'
+        self.assertEqual(str(question), expected_object_name)
