@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from capstone.models import User, Question
+from capstone.models import User, Question, Quiz
 
 # Create your tests here.
 
@@ -43,3 +43,31 @@ class QuestionModelTest(TestCase):
         question = Question.objects.get(id=1)
         expected_object_name = f'Question: {question.content}'
         self.assertEqual(str(question), expected_object_name)
+
+class QuizModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        # Create user
+        test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
+        test_user1.save()
+        
+        test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
+
+        test_question.save()
+
+        test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
+        test_quiz.questions.add(test_question)
+
+        test_quiz.save()
+
+
+    def test_quiz_name_max_length(self):
+        quiz = Quiz.objects.get(id=1)
+        max_length = quiz._meta.get_field('quiz_name').max_length
+        self.assertEqual(max_length, 30)
+
+    def test_quiz_name_is_quiz_name(self):
+        quiz = Quiz.objects.get(id=1)
+        expected_object_name = f'{quiz.quiz_name}'
+        self.assertEqual(str(quiz), expected_object_name)
