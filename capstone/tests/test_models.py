@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from capstone.models import User, Question, Quiz
+from capstone.models import User, Question, Quiz, Contest
 
 # Create your tests here.
 
@@ -12,6 +12,7 @@ class QuestionModelTest(TestCase):
         test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
         test_user1.save()
         
+        # Create question
         Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
 
     def test_answer0_max_length(self):
@@ -52,13 +53,13 @@ class QuizModelTest(TestCase):
         test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
         test_user1.save()
         
+        # Create question
         test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
-
         test_question.save()
 
+        # Create quiz
         test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
         test_quiz.questions.add(test_question)
-
         test_quiz.save()
 
 
@@ -71,3 +72,30 @@ class QuizModelTest(TestCase):
         quiz = Quiz.objects.get(id=1)
         expected_object_name = f'{quiz.quiz_name}'
         self.assertEqual(str(quiz), expected_object_name)
+
+class ContestModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        # Create user
+        test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
+        test_user1.save()
+
+        # Create question        
+        test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
+        test_question.save()
+
+        # Create quiz
+        test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
+        test_quiz.questions.add(test_question)
+        test_quiz.save()
+
+        # Create contest
+        test_contest = Contest.objects.create(user=test_user1, quiz=test_quiz)
+        test_contest.save()
+
+    def test_contest_name_is_user_name_timestamp_quiz_name(self):
+        contest = Contest.objects.get(id=1)
+        timestamp = contest.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
+        expected_object_name = f"{contest.user.username} at {timestamp}. Quizname: {contest.quiz.quiz_name}."
+        self.assertEqual(str(contest), expected_object_name)
