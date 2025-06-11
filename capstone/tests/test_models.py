@@ -99,3 +99,15 @@ class ContestModelTest(TestCase):
         timestamp = contest.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
         expected_object_name = f"{contest.user.username} at {timestamp}. Quizname: {contest.quiz.quiz_name}."
         self.assertEqual(str(contest), expected_object_name)
+
+    def test_contest_quiz_question_is_test_question_content(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_question = "Is this a test question?"
+        self.assertEqual(contest.question(n), expected_question)
+
+    def test_contest_quiz_question_is_index_error(self):
+        contest = Contest.objects.get(id=1)
+        n = 1
+        with self.assertRaises(IndexError):
+            contest.question(n)
