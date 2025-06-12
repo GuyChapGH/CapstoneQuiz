@@ -106,8 +106,55 @@ class ContestModelTest(TestCase):
         expected_question = "Is this a test question?"
         self.assertEqual(contest.question(n), expected_question)
 
-    def test_contest_quiz_question_is_index_error(self):
+    def test_contest_quiz_question_is_index_error_with_n_out_of_range(self):
         contest = Contest.objects.get(id=1)
         n = 1
         with self.assertRaises(IndexError):
             contest.question(n)
+
+    def test_multiple_choice0_is_answer0(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_answer = "Yes"
+        self.assertEqual(contest.multiple_choice0(n), expected_answer)
+
+    def test_multiple_choice1_is_answer1(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_answer = "No"
+        self.assertEqual(contest.multiple_choice1(n), expected_answer)
+
+    def test_multiple_choice2_is_answer2(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_answer = "No"
+        self.assertEqual(contest.multiple_choice2(n), expected_answer)
+
+    def test_multiple_choice3_is_answer3(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_answer = "No"
+        self.assertEqual(contest.multiple_choice3(n), expected_answer)
+
+    def test_correct_answer_is_answer0(self):
+        contest = Contest.objects.get(id=1)
+        n = 0
+        expected_answer = "answer0"
+        self.assertEqual(contest.correct_answer(n), expected_answer)
+
+    def test_questions_in_quiz_is_1(self):
+        contest = Contest.objects.get(id=1)
+        expected_question_count = "1"
+        self.assertEqual(contest.questions_in_quiz(), expected_question_count)
+
+    def test_q_score_default_is_0(self):
+        contest = Contest.objects.get(id=1)
+        expected_default_score = "0"
+        self.assertEqual(contest.q_score(), expected_default_score)
+
+    def test_q_score_increases_by_1_with_score_point(self):
+        """This test modifies the test data. Might need to set up special data for this case"""
+        contest = Contest.objects.get(id=1)
+        contest.score_point()
+        expected_score = "1"
+        self.assertEqual(contest.q_score(), expected_score)
