@@ -13,7 +13,7 @@ class CreateQuestionViewTest(TestCase):
 
     def test_redirect_if_not_logged_in(self):
         response = self.client.get(reverse("create_question"))
-        self.assertRedirects(response, "/capstone/login/")
+        self.assertRedirects(response, "/login?next=/create_question/")
 
     def test_logged_in_user_uses_correct_template(self):
         login = self.client.login(username = 'testuser1', password='testpassword')
