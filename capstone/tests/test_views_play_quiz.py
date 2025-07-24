@@ -76,6 +76,8 @@ class PlayQuizViewDatabaseTest(TestCase):
         contest_id = Contest.objects.all().last().id
         response = self.client.get(reverse("play_quiz", args=(contest_id,)))
 
+        # Check context includes all contest data
+
         self.assertTrue(response.context['question'], "Is this a test question?")
         
         self.assertTrue(response.context['multiple_choice0'], 'Yes') 
