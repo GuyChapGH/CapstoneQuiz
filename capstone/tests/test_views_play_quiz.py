@@ -78,13 +78,13 @@ class PlayQuizViewDatabaseTest(TestCase):
 
         # Check context includes all contest data
 
-        self.assertTrue(response.context['question'], "Is this a test question?")
+        self.assertEqual(response.context['question'], "Is this a test question?")
         
-        self.assertTrue(response.context['multiple_choice0'], 'Yes') 
-        self.assertTrue(response.context['multiple_choice1'], 'No') 
-        self.assertTrue(response.context['multiple_choice2'], 'No') 
-        self.assertTrue(response.context['multiple_choice3'], 'No') 
+        self.assertEqual(response.context['multiple_choice0'], 'Yes') 
+        self.assertEqual(response.context['multiple_choice1'], 'No') 
+        self.assertEqual(response.context['multiple_choice2'], 'No') 
+        self.assertEqual(response.context['multiple_choice3'], 'No') 
 
-        self.assertTrue(response.context['correct_answer'], 'answer0')
+        self.assertEqual(response.context['correct_answer'], 'answer0')
 
-        self.assertTrue(response.context['number_questions'], 1)         
+        self.assertEqual(response.context['number_questions'], '1')         
