@@ -29,3 +29,34 @@ class ResultsSelectViewTest(TestCase):
 
         # Check that we used correct template
         self.assertTemplateUsed(response, "capstone/results_select.html") 
+
+class ResultsSelectViewDatabaseTest(TestCase):
+    def test_select_quiz_and_redirect_to_results_display_when_submitting_valid_form(self):
+        """Test that form submission with valid data redirects to results display"""
+  
+        # Create a user
+        test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
+        test_user1.save()
+
+        # Login user
+        login = self.client.login(username = 'testuser1', password='testpassword')
+
+        # Create question
+        test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
+
+        test_question.save()
+
+        # Create quiz
+        test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
+        test_quiz.questions.add(test_question)
+        test_quiz.save()
+        
+        # Get POST response
+        form_data = {
+            'quiz': 1 # This should select the quiz with quiz_id=1           
+        }
+
+        response = self.client.post(reverse('results_select'), data=form_data)
+
+        # Check that the quiz was selected (how to do this?) and we were redirected
+        self.assertEqual(response.status_code, 302) # Redirect after form submission      

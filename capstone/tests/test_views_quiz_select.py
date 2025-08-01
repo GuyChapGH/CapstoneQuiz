@@ -53,7 +53,7 @@ class QuizSelectViewDatabaseTest(TestCase):
         test_quiz.save()
         
         form_data = {
-            'quiz': test_quiz           
+            'quiz': 1 # This should select quiz with quiz_id=1          
         }
 
         response = self.client.post(reverse('quiz_select'), data=form_data)
@@ -63,8 +63,6 @@ class QuizSelectViewDatabaseTest(TestCase):
         
         # Contest should be in the database
         self.assertTrue(Contest.objects.exists())        
-
-        # NB: THIS TEST DOESNT WORK. form_data doesnt select test_quiz and Contest object is not created.
 
     def test_doesnt_create_contest_and_returns_to_form_when_submitting_invalid_form(self):
         """Test that form submission with invalid data does not create a contest in the database"""
