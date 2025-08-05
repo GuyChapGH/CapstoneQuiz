@@ -47,3 +47,42 @@ class ResultsDisplayViewTest(TestCase):
 
         # Check that we used correct template
         self.assertTemplateUsed(response, "capstone/results_display.html")
+
+class ResultsDisplayViewDatabaseTest(TestCase):
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
+        test_user1.save()
+
+        # Create question
+        test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
+
+        test_question.save()
+
+        # Create quiz
+        test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
+        test_quiz.questions.add(test_question)
+        test_quiz.save()
+
+        # Create contest
+        test_contest = Contest.objects.create(user=test_user1, quiz=test_quiz)
+        test_contest.save()
+
+    def test_context_contains_all_data_when_logged_in(self):
+        # Login and get response
+        login = self.client.login(username = 'testuser1', password='testpassword')
+        
+        
+        quiz_id = Quiz.objects.all().first().id
+        response = self.client.get(reverse("results_display", args=(quiz_id,)))
+    
+
+        # Check context includes all contest data
+        expected_queryset = Contest.objects.all()
+
+        self.assertEqual(response.context['quiz_id'], 1)
+        self.assertEqual(str(response.context['quiz_name']), 'test_quiz1') 
+        self.assertEqual(str(response.context['queryset']), str(expected_queryset)) 
+    
+
+      
