@@ -7,6 +7,38 @@ import json
 
 # Create your tests here.
 
+class PlayQuizAPIViewTest(TestCase):
+    def setUp(self):
+        # Create a user
+        test_user1 = User.objects.create_user(username = 'testuser1', password='testpassword')
+        test_user1.save()
+
+        # Create question
+        test_question = Question.objects.create(user=test_user1, content='Is this a test question?', answer0='Yes', answer1='No', answer2='No', answer3='No', correct_answer='answer0')
+
+        test_question.save()
+
+        # Create quiz
+        test_quiz = Quiz.objects.create(user=test_user1, quiz_name='test_quiz1')
+        test_quiz.questions.add(test_question)
+        test_quiz.save()
+
+        # Create contest
+        test_contest = Contest.objects.create(user=test_user1, quiz=test_quiz)
+        test_contest.save()
+    
+    def test_raises_404_when_contest_not_found(self):
+        # Login and get response
+        login = self.client.login(username = 'testuser1', password='testpassword')
+        
+        invalid_contest_id = 10
+        response = self.client.get(reverse("play_quizAPI", args=(invalid_contest_id,)))
+
+        # Check that we got a response 404 Not Found
+        self.assertEqual(response.status_code, 404) 
+
+
+
 class PlayQuizAPIViewDatabaseTest(TestCase):
     def setUp(self):
         # Create a user
@@ -71,6 +103,7 @@ class PlayQuizAPIViewDatabaseTest(TestCase):
 
         self.assertEqual(get_response_content['quiz_score'], '0')         
 
+    
 
 
     

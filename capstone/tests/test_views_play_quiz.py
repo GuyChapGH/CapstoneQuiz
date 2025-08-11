@@ -48,6 +48,16 @@ class PlayQuizViewTest(TestCase):
         # Check that we used correct template
         self.assertTemplateUsed(response, "capstone/play_quiz.html")
 
+    def test_raises_404_when_contest_not_found(self):
+        # Login and get response
+        login = self.client.login(username = 'testuser1', password='testpassword')
+        
+        invalid_contest_id = 10
+        response = self.client.get(reverse("play_quiz", args=(invalid_contest_id,)))
+
+        # Check that we got a response 404 Not Found
+        self.assertEqual(response.status_code, 404) 
+
 class PlayQuizViewDatabaseTest(TestCase):
     def setUp(self):
         # Create a user

@@ -48,6 +48,7 @@ class ResultsDisplayViewTest(TestCase):
         # Check that we used correct template
         self.assertTemplateUsed(response, "capstone/results_display.html")
 
+
 class ResultsDisplayViewDatabaseTest(TestCase):
     def setUp(self):
         # Create a user
