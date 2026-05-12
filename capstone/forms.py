@@ -22,6 +22,9 @@ class QuestionCreateForm(forms.ModelForm):
 
 
 class QuizCreateForm(forms.ModelForm):
+    # Development: As number of questions increases in database may need some
+    # kind of pagination of questions within CheckboxSelectMultiple??
+    
     questions = forms.ModelMultipleChoiceField(
         queryset=Question.objects.all().order_by('-timestamp'),
         widget=forms.CheckboxSelectMultiple)
