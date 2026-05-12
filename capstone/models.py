@@ -47,7 +47,7 @@ class Contest(models.Model):
     def __str__(self):
         # timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
         timestamp = self.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
-        return f"{self.user.username} at {timestamp}. Quizname: {self.quiz.quiz_name}."
+        return f"TEST: {self.user.username} at {timestamp}. Quizname: {self.quiz.quiz_name}."
     # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def question(self, n):
