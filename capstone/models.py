@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import localtime
 from django.db import models
 
 # Create your models here.
@@ -45,9 +46,13 @@ class Contest(models.Model):
     quiz_score = models.IntegerField(default=0)
 
     def __str__(self):
+        local_timestamp = localtime(self.timestamp)
+
         # timestamp = self.timestamp.strftime("%b %-d %Y, %-I:%M %p")
-        timestamp = self.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
-        return f"TEST: {self.user.username} at {timestamp}. Quizname: {self.quiz.quiz_name}."
+        # timestamp = self.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
+
+        local_timestamp_form = local_timestamp.strftime("%a, %d %b %Y %H:%M:%S")
+        return f"{self.user.username} at {local_timestamp_form}. Quizname: {self.quiz.quiz_name}."
     # return f"{self.user.username}. Quizname: {first_quiz.quiz_name}"
 
     def question(self, n):
