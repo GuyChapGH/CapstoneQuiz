@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.timezone import localtime
 
 from capstone.models import User, Question, Quiz, Contest
 
@@ -96,8 +97,9 @@ class ContestModelTest(TestCase):
 
     def test_contest_name_is_user_name_timestamp_quiz_name(self):
         contest = Contest.objects.get(id=1)
-        timestamp = contest.timestamp.strftime("%a, %d %b %Y %H:%M:%S")
-        expected_object_name = f"{contest.user.username} at {timestamp}. Quizname: {contest.quiz.quiz_name}."
+        local_timestamp = localtime(contest.timestamp)
+        local_timestamp_form = local_timestamp.strftime("%a, %d %b %Y %H:%M:%S")
+        expected_object_name = f"{contest.user.username} at {local_timestamp_form}. Quizname: {contest.quiz.quiz_name}."
         self.assertEqual(str(contest), expected_object_name)
 
     def test_contest_quiz_question_is_test_question_content(self):
